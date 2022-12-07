@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://52.78.155.121:3306/mydb
+    username: root
+    password: password
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 3
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        show_sql: true
+        format_sql: true
+auth:
+  white-list:
+    - /swagger-ui/**
+    - /v1/health
+    - /v1/auth/**
+    - /v2/api-docs
+    - /configuration/**
+    - /swagger*/**
+    - /webjars/**
+    - /v1/auth/*
+cors:
+  allowed-origin:
+    - http://localhost:8080
+server:
+  port: 8080
