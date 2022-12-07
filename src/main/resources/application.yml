@@ -1,13 +1,16 @@
+server:
+  port: 8080
+
 spring:
   datasource:
+    username: sa
+    password:
     driver-class-name: org.h2.Driver
     hikari:
       minimum-idle: 2
       maximum-pool-size: 3
       idle-timeout: 600000
     url: jdbc:h2:tcp://localhost/~/mydb
-    username: sa
-    password:
   jpa:
     hibernate:
       ddl-auto: create
@@ -16,22 +19,26 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
         show_sql: true
         format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
     database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+
 auth:
   white-list:
     - /swagger-ui/**
     - /v1/health
     - /v1/auth/**
     - /v2/api-docs
+    - /v3/api-docs
     - /configuration/**
     - /swagger*/**
     - /webjars/**
-    - /v1/auth/*
-cors:
-  allowed-origin:
-    - http://localhost:8080
-server:
-  port: 8080
+    - /v1/**
+    - /h2-console/**
+  cors:
+    allowed-origin:
+      - http://localhost:8080

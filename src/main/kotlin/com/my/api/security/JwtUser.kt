@@ -4,10 +4,10 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class JwtUser(
-    private var id: String,
-    private var password: String,
-    private var authorities: MutableList<GrantedAuthority>
-) : UserDetails{
+    private val id: String,
+    private val password: String,
+    private val authorities: MutableList<GrantedAuthority>,
+) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return this.authorities
     }

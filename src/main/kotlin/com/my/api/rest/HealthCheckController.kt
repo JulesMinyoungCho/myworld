@@ -1,16 +1,15 @@
 package com.my.api.rest
 
-import com.my.api.common.RestUris
+import com.my.api.common.constants.RestUriProvider
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("${RestUris.API_V1}/health")
-class HealthCheckController : AbstractRestController(){
-
+@RequestMapping(RestUriProvider.HEALTH)
+class HealthCheckController : BaseRestController(){
     @GetMapping
-    fun healthCheck() : ResponseEntity<Any>
+    fun health(): ResponseEntity<Any>
         = response("OK")
 }
