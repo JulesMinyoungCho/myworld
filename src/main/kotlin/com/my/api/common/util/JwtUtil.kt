@@ -6,33 +6,40 @@ import org.springframework.security.core.GrantedAuthority
 import java.util.*
 
 class JwtUtil {
-    companion object {
-        private const val secret = "abcde12345abcde12345abcde1234512"
-        private const val expiration = 60*60
-        fun generateToken(subject: String, rls: List<GrantedAuthority>) : String{
+
+    companion object{
+
+        const val SECRET = "abcdeabcdeabcdeabcdeabcdeabcde12"
+        const val EXP = 60*30
+        fun buildJwt(sub: String, roles: List<GrantedAuthority>) : String{
             val claims = mutableMapOf<String, Any>()
-            claims["sub"] = subject
-            claims["rls"] = rls
-            return generateTokenWithClaims(claims)
-        }
-        fun getClaimsFromToken(token:String) : Map<String, Any> {
-            return Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .body
+
+            claims["sub"] = sub
+            claims["rls"] = roles
+
+            return buildJwtWithClaims(claims)
         }
 
-        private fun generateTokenWithClaims(claims: Map<String, Any>) : String{
+        private fun buildJwtWithClaims(claims: Map<String, Any>) : String {
+
             val now = Date()
-            val exp = Date(now.time + expiration*1000)
+            val expire = Date(now.time + EXP*1000)
 
             return Jwts.builder()
                 .setSubject(claims["sub"] as String)
+                .signWith(SignatureAlgorithm.HS256, SECRET)
                 .setIssuedAt(now)
-                .setExpiration(exp)
-                .addClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .setExpiration(expire)
+                .setClaims(claims)
                 .compact()
         }
+
+        fun getClaims(jwt: String): Map<String, Any> {
+            return Jwts.parser()
+                .setSigningKey(SECRET)
+                .parseClaimsJws(jwt)
+                .body
+        }
+
     }
 }

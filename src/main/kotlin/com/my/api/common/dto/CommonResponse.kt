@@ -1,7 +1,9 @@
 package com.my.api.common.dto
 
-data class CommonResponse<T> (
-    val body: T,
+import java.io.Serializable
+
+class CommonResponse<T> (
     val status: Int,
-    val message: String
-)
+    val message: String,
+    val data: T,
+) : Serializable

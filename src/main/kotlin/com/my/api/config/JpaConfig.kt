@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.domain.AuditorAware
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing
-import org.springframework.security.core.context.SecurityContextHolder
 import java.util.*
 import javax.persistence.EntityManager
 
@@ -13,11 +12,10 @@ import javax.persistence.EntityManager
 @EnableJpaAuditing
 class JpaConfig : AuditorAware<String>{
     override fun getCurrentAuditor(): Optional<String> {
-        val authentication = SecurityContextHolder.getContext().authentication
-        return Optional.ofNullable(if (authentication == null) "system" else authentication.name)
+        return Optional.ofNullable("test")
     }
 
     @Bean
-    fun jpaQueryFactory(em: EntityManager?)
-        = JPAQueryFactory(em)
+    fun queryFactory(entityManager: EntityManager)
+        = JPAQueryFactory(entityManager)
 }

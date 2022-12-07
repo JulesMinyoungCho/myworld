@@ -1,30 +1,24 @@
 package com.my.api.common.util
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.springframework.security.core.GrantedAuthority
 
 internal class JwtUtilTest {
 
     @Test
-    fun generateTokenTest() {
+    fun `토큰이 정상적으로 생성 된다`() {
 
-        val result = JwtUtil.generateToken("my",listOf(GrantedAuthority{"test"}))
-
-        assertNotNull(result)
-        println(result)
-
+        val token = JwtUtil.buildJwt("jules.my", mutableListOf(GrantedAuthority { "SYS_ADMIN" }))
+        assertNotNull(token)
     }
 
+
     @Test
-    fun getClaimsTest() {
-
-        val result = JwtUtil.generateToken("my",listOf(GrantedAuthority{"test"}))
-
-        val claims = JwtUtil.getClaimsFromToken(result)
-
-        println(claims)
-
+    fun `생성 된 토큰에서 claim을 다시 뽑을 수 있다`() {
+        val token = JwtUtil.buildJwt("jules.my", mutableListOf(GrantedAuthority { "SYS_ADMIN" }))
+        val claims = JwtUtil.getClaims(token)
+        assertNotNull(claims)
     }
 
 
